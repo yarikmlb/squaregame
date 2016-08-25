@@ -1,0 +1,12 @@
+.wrapper {
+  width: 50%;
+  margin: 0 auto;
+}
+.header{
+  text-align:center;
+  border-bottom: 1px dotted #d3d3d3;
+}
+health {
+  display: inline-block;
+  margin: 0 5px;
+}

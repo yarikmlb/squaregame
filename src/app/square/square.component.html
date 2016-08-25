@@ -1,0 +1,2 @@
+<div *ngIf="square.isOpen" [ngStyle]="{'background': square.color, 'background-position': 'center', 'background-size': 'cover'}" (click)="openSquare()">{{name}}</div>
+<div *ngIf="!square.isOpen" [ngStyle]="{'background': 'url(https://cdn1.iconfinder.com/data/icons/toolbar-signs/512/cancel-512.png)', 'background-position': 'center', 'background-size': 'cover'}" (click)="openSquare()">{{name}}</div>
