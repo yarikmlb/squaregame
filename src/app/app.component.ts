@@ -23,6 +23,8 @@ export class AppComponent {
   constructor (private _game: GameService) {
     this.generateList(4);
     this.health = [1, 2, 3];
+    this.showSquare(1000);
+    alert("You have one second to remember the location");
   }
 
   generateList(count){
@@ -35,7 +37,7 @@ export class AppComponent {
   }
 
   createItem(index, elemColor){
-    return {color: elemColor || this._game.getRandomBackground(), isOpen: false, id: index, statement: false};
+    return {color: elemColor || this._game.getRandomBackground(), isOpen: true, id: index, statement: false};
   }
 
   destroy(square){
@@ -77,6 +79,8 @@ export class AppComponent {
           this._game.reset();
           this.health = [1, 2, 3];
           this.generateList(this.calc + 4);
+          alert("You have three seconds to remember the location");
+          this.showSquare(3000);
         }
         this.tmpItem = null;
       }
@@ -90,5 +94,11 @@ export class AppComponent {
       array[i - 1] = array[j];
       array[j] = x;
     }
+  }
+  showSquare(time){
+    setTimeout(()=>{
+      for(let i = 0; i < this.list.length; i++)
+        this.list[i].isOpen = false;
+    },time);
   }
 }
