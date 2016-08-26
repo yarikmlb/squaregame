@@ -25,16 +25,16 @@ export class AppComponent {
 
   constructor(private _gameService: GameService) {
     this.generateList(4);
-
+    this.health = [1, 2, 3];
   }
 
   generateList(count){
+    //debugger;
     this.calc = count;
     for(let i = 0; i < count; i++){
       let elemBackground = (i % 2 !== 0) ? this.list[i-1].background : false;
       this.list.push(this.createItem(i, elemBackground));
     }
-    this.health = [1, 2, 3];
     this.shuffle(this.list);
     this.isGameOver = false;
     this.isGameWin = false;
@@ -60,7 +60,7 @@ export class AppComponent {
           /*if(confirm("You loose! Whant more?")){
            this.playAgain();
            }else {*/
-          this.notPlayAgain();
+          this.playAgain();
           //}
         }
 
@@ -73,8 +73,12 @@ export class AppComponent {
         if(this.newVawe.length === this.calc && this.calc < 12){
           this.generateNewGame();
         }else if (this.calc === 12 && this.newVawe.length === 12 && this.newVawe.every(this.checkAllItems)){
-          this.isGameWin = true;
+          this.newVawe = [];
           this.list = [];
+          this.isGameWin = true;
+          this.healthCounter = 0;
+          this.health = [1, 2, 3];
+          this._gameService.reset();
         }
         this.tmpItem = null;
       }
@@ -99,6 +103,7 @@ export class AppComponent {
   }
 
   generateNewGame(){
+    //debugger;
     this.list = [];
     this.newVawe = [];
     this._gameService.reset();
@@ -122,9 +127,12 @@ export class AppComponent {
    this.showSquare(2000);
    }*/
 
-  notPlayAgain(){
+  playAgain(){
     this.isGameOver = true;
     this.list = [];
+    this._gameService.reset();
+    this.healthCounter = 0;
+    this.health = [1, 2, 3];
   }
 
   setConditionWhenColorSame(elem){

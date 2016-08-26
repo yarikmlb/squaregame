@@ -17,14 +17,15 @@ var AppComponent = (function () {
         this.health = [];
         this.healthCounter = 0;
         this.generateList(4);
+        this.health = [1, 2, 3];
     }
     AppComponent.prototype.generateList = function (count) {
+        //debugger;
         this.calc = count;
         for (var i = 0; i < count; i++) {
             var elemBackground = (i % 2 !== 0) ? this.list[i - 1].background : false;
             this.list.push(this.createItem(i, elemBackground));
         }
-        this.health = [1, 2, 3];
         this.shuffle(this.list);
         this.isGameOver = false;
         this.isGameWin = false;
@@ -49,7 +50,7 @@ var AppComponent = (function () {
                     /*if(confirm("You loose! Whant more?")){
                      this.playAgain();
                      }else {*/
-                    _this.notPlayAgain();
+                    _this.playAgain();
                 }
             }
             else if (_this.tmpItem === square && _this.health.length > 0) {
@@ -62,8 +63,12 @@ var AppComponent = (function () {
                     _this.generateNewGame();
                 }
                 else if (_this.calc === 12 && _this.newVawe.length === 12 && _this.newVawe.every(_this.checkAllItems)) {
-                    _this.isGameWin = true;
+                    _this.newVawe = [];
                     _this.list = [];
+                    _this.isGameWin = true;
+                    _this.healthCounter = 0;
+                    _this.health = [1, 2, 3];
+                    _this._gameService.reset();
                 }
                 _this.tmpItem = null;
             }
@@ -86,6 +91,7 @@ var AppComponent = (function () {
         }, time);
     };
     AppComponent.prototype.generateNewGame = function () {
+        //debugger;
         this.list = [];
         this.newVawe = [];
         this._gameService.reset();
@@ -106,9 +112,12 @@ var AppComponent = (function () {
      this.health = [1, 2, 3];
      this.showSquare(2000);
      }*/
-    AppComponent.prototype.notPlayAgain = function () {
+    AppComponent.prototype.playAgain = function () {
         this.isGameOver = true;
         this.list = [];
+        this._gameService.reset();
+        this.healthCounter = 0;
+        this.health = [1, 2, 3];
     };
     AppComponent.prototype.setConditionWhenColorSame = function (elem) {
         this.tmpItem.isOpen = true;
