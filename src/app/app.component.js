@@ -52,7 +52,7 @@ var AppComponent = (function () {
                         _this.list = [];
                         _this._game.reset();
                         _this.generateList(_this.calc);
-                        // this.health = [1, 2, 3];
+                        _this.health = [1, 2, 3];
                         _this.healthCounter = 0;
                         _this.showSquare(2000);
                     }
@@ -81,7 +81,7 @@ var AppComponent = (function () {
                     _this.list = [];
                     _this.newVawe = [];
                     _this._game.reset();
-                    _this.health = [1, 2, 3];
+                    // this.health = [1, 2, 3];
                     _this.generateList(_this.calc + 4);
                     _this.healthCounter = 0;
                     alert("You have three seconds to remember the location");

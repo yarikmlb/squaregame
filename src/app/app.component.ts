@@ -59,7 +59,7 @@ export class AppComponent {
             this.list = [];
             this._game.reset();
             this.generateList(this.calc);
-            // this.health = [1, 2, 3];
+            this.health = [1, 2, 3];
             this.healthCounter = 0;
             this.showSquare(2000);
           }else {
@@ -85,7 +85,7 @@ export class AppComponent {
           this.list = [];
           this.newVawe = [];
           this._game.reset();
-          this.health = [1, 2, 3];
+          // this.health = [1, 2, 3];
           this.generateList(this.calc + 4);
           this.healthCounter = 0;
           alert("You have three seconds to remember the location");
