@@ -10,3 +10,22 @@ health {
   display: inline-block;
   margin: 0 5px;
 }
+.gamewin,
+.gameover {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+.gamewin img,
+.gameover img {
+  width: 100%;
+}
+.gamewin h1 {
+  color: red;
+}
+.gamewin button,
+.gameover button {
+  background: green;
+  padding: 10px 20px;
+  margin: 15px 0;
+}

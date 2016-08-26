@@ -19,22 +19,26 @@ export class AppComponent {
   public tmpItem: any;
   public health = [];
   public healthCounter = 0;
+  public isGameOver: any;
+  public isGameWin: any;
 
 
-  constructor (private _gameService: GameService) {
+  constructor(private _gameService: GameService) {
     this.generateList(4);
-    this.health = [1, 2, 3];
-    this.showSquare(1000);
-    alert("You have one second to remember the location");
   }
 
-  private generateList(count){
+  generateList(count){
     this.calc = count;
     for(let i = 0; i < count; i++){
       let elemBackground = (i % 2 !== 0) ? this.list[i-1].background : false;
       this.list.push(this.createItem(i, elemBackground));
     }
+    this.health = [1, 2, 3];
     this.shuffle(this.list);
+    this.showSquare(1000);
+    alert('У вас есть секунда что бы запомнить расположение карт');
+    this.isGameOver = false;
+    this.isGameWin = false;
   }
 
   createItem(index, elemBackground){
@@ -52,21 +56,24 @@ export class AppComponent {
         //debugger;
         this.removeHealth();
         if(this.health.length === 0){
-          if(confirm("You loose! Whant more?")){
-            this.playAgain();
-          }else {
-            this.notPlayAgain();
-          }
+          /*if(confirm("You loose! Whant more?")){
+           this.playAgain();
+           }else {*/
+          this.notPlayAgain();
+          //}
         }
 
       }else if(this.tmpItem === square && this.health.length > 0){
         this.setConditionWhenSameElement();
 
-      }else if(this.checkColor(square)){
+      }else if(this.check(square)){
         this.addNewHealth();
         this.setConditionWhenColorSame(square);
         if(this.newVawe.length === this.calc && this.calc < 12){
           this.generateNewGame();
+        }else if (this.calc === 12 && this.newVawe.length === 12 && this.newVawe.every(this.checkAllItems)){
+          this.isGameWin = true;
+          this.list = [];
         }
         this.tmpItem = null;
       }
@@ -108,16 +115,16 @@ export class AppComponent {
     }
   }
 
-  playAgain(){
-    this.list = [];
-    this._gameService.reset();
-    this.generateList(this.calc);
-    this.health = [1, 2, 3];
-    this.showSquare(2000);
-  }
+  /*playAgain(){
+   this.list = [];
+   this._gameService.reset();
+   this.generateList(this.calc);
+   this.health = [1, 2, 3];
+   this.showSquare(2000);
+   }*/
 
   notPlayAgain(){
-    alert("See you...");
+    this.isGameOver = true;
     this.list = [];
   }
 
@@ -152,7 +159,11 @@ export class AppComponent {
     this.health.pop();
   }
 
-  checkColor(square){
+  check(square){
     return (this.tmpItem.background === square.background && square.statement === false && this.tmpItem.statement === false && this.health.length > 0);
+  }
+
+  checkAllItems(element, array){
+    return element.isOpen === true;
   }
 }

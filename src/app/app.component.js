@@ -17,9 +17,6 @@ var AppComponent = (function () {
         this.health = [];
         this.healthCounter = 0;
         this.generateList(4);
-        this.health = [1, 2, 3];
-        this.showSquare(1000);
-        alert("You have one second to remember the location");
     }
     AppComponent.prototype.generateList = function (count) {
         this.calc = count;
@@ -27,7 +24,12 @@ var AppComponent = (function () {
             var elemBackground = (i % 2 !== 0) ? this.list[i - 1].background : false;
             this.list.push(this.createItem(i, elemBackground));
         }
+        this.health = [1, 2, 3];
         this.shuffle(this.list);
+        this.showSquare(1000);
+        alert('У вас есть секунда что бы запомнить расположение карт');
+        this.isGameOver = false;
+        this.isGameWin = false;
     };
     AppComponent.prototype.createItem = function (index, elemBackground) {
         return { background: elemBackground || this._gameService.getRandomBackground(), isOpen: true, id: index, statement: false };
@@ -44,22 +46,24 @@ var AppComponent = (function () {
                 //debugger;
                 _this.removeHealth();
                 if (_this.health.length === 0) {
-                    if (confirm("You loose! Whant more?")) {
-                        _this.playAgain();
-                    }
-                    else {
-                        _this.notPlayAgain();
-                    }
+                    /*if(confirm("You loose! Whant more?")){
+                     this.playAgain();
+                     }else {*/
+                    _this.notPlayAgain();
                 }
             }
             else if (_this.tmpItem === square && _this.health.length > 0) {
                 _this.setConditionWhenSameElement();
             }
-            else if (_this.checkColor(square)) {
+            else if (_this.check(square)) {
                 _this.addNewHealth();
                 _this.setConditionWhenColorSame(square);
                 if (_this.newVawe.length === _this.calc && _this.calc < 12) {
                     _this.generateNewGame();
+                }
+                else if (_this.calc === 12 && _this.newVawe.length === 12 && _this.newVawe.every(_this.checkAllItems)) {
+                    _this.isGameWin = true;
+                    _this.list = [];
                 }
                 _this.tmpItem = null;
             }
@@ -97,15 +101,15 @@ var AppComponent = (function () {
             this.health.push(this.healthCounter);
         }
     };
-    AppComponent.prototype.playAgain = function () {
-        this.list = [];
-        this._gameService.reset();
-        this.generateList(this.calc);
-        this.health = [1, 2, 3];
-        this.showSquare(2000);
-    };
+    /*playAgain(){
+     this.list = [];
+     this._gameService.reset();
+     this.generateList(this.calc);
+     this.health = [1, 2, 3];
+     this.showSquare(2000);
+     }*/
     AppComponent.prototype.notPlayAgain = function () {
-        alert("See you...");
+        this.isGameOver = true;
         this.list = [];
     };
     AppComponent.prototype.setConditionWhenColorSame = function (elem) {
@@ -134,8 +138,11 @@ var AppComponent = (function () {
     AppComponent.prototype.removeHealth = function () {
         this.health.pop();
     };
-    AppComponent.prototype.checkColor = function (square) {
+    AppComponent.prototype.check = function (square) {
         return (this.tmpItem.background === square.background && square.statement === false && this.tmpItem.statement === false && this.health.length > 0);
+    };
+    AppComponent.prototype.checkAllItems = function (element, array) {
+        return element.isOpen === true;
     };
     AppComponent = __decorate([
         core_1.Component({
