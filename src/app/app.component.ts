@@ -59,7 +59,9 @@ export class AppComponent {
             this.list = [];
             this._game.reset();
             this.generateList(this.calc);
-            this.health = [1, 2, 3];
+            // this.health = [1, 2, 3];
+            this.healthCounter = 0;
+            this.showSquare(2000);
           }else {
             alert("See you...");
             this.list = [];

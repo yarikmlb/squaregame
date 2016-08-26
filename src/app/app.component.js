@@ -52,7 +52,9 @@ var AppComponent = (function () {
                         _this.list = [];
                         _this._game.reset();
                         _this.generateList(_this.calc);
-                        _this.health = [1, 2, 3];
+                        // this.health = [1, 2, 3];
+                        _this.healthCounter = 0;
+                        _this.showSquare(2000);
                     }
                     else {
                         alert("See you...");
