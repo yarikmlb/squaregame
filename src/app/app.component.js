@@ -15,6 +15,7 @@ var AppComponent = (function () {
         this.list = [];
         this.newVawe = [];
         this.health = [];
+        this.healthCounter = 0;
         this.generateList(4);
         this.health = [1, 2, 3];
         this.showSquare(1000);
@@ -41,6 +42,7 @@ var AppComponent = (function () {
                 }
             }
             else if (_this.tmpItem.color !== square.color && _this.health.length > 0) {
+                _this.healthCounter = 0;
                 _this.tmpItem.isOpen = false;
                 square.isOpen = false;
                 _this.tmpItem = null;
@@ -63,6 +65,10 @@ var AppComponent = (function () {
                 _this.tmpItem = null;
             }
             else if (_this.tmpItem.color === square.color && square.statement === false && _this.tmpItem.statement === false && _this.health.length > 0) {
+                _this.healthCounter += 1;
+                if (_this.healthCounter === 3) {
+                    _this.health.push(_this.healthCounter);
+                }
                 _this.tmpItem.isOpen = true;
                 square.isOpen = true;
                 _this.tmpItem.statement = true;
@@ -75,6 +81,7 @@ var AppComponent = (function () {
                     _this._game.reset();
                     _this.health = [1, 2, 3];
                     _this.generateList(_this.calc + 4);
+                    _this.healthCounter = 0;
                     alert("You have three seconds to remember the location");
                     _this.showSquare(3000);
                 }

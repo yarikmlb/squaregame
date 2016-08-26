@@ -18,6 +18,7 @@ export class AppComponent {
   public calc: number;
   public tmpItem: any;
   public health = [];
+  public healthCounter = 0;
 
 
   constructor (private _game: GameService) {
@@ -27,7 +28,7 @@ export class AppComponent {
     alert("You have one second to remember the location");
   }
 
-  generateList(count){
+  private generateList(count){
     this.calc = count;
     for(let i = 0; i < count; i++){
       let elemColor = (i % 2 !== 0) ? this.list[i-1].color : false;
@@ -48,6 +49,7 @@ export class AppComponent {
           this.tmpItem = square;
         }
       }else if(this.tmpItem.color !== square.color && this.health.length > 0){
+        this.healthCounter = 0;
         this.tmpItem.isOpen = false;
         square.isOpen = false;
         this.tmpItem = null;
@@ -67,6 +69,10 @@ export class AppComponent {
         this.tmpItem.isOpen = false;
         this.tmpItem = null;
       }else if(this.tmpItem.color === square.color && square.statement === false && this.tmpItem.statement === false && this.health.length > 0){
+        this.healthCounter += 1;
+        if(this.healthCounter === 3){
+          this.health.push(this.healthCounter);
+        }
         this.tmpItem.isOpen = true;
         square.isOpen = true;
         this.tmpItem.statement = true;
@@ -79,6 +85,7 @@ export class AppComponent {
           this._game.reset();
           this.health = [1, 2, 3];
           this.generateList(this.calc + 4);
+          this.healthCounter = 0;
           alert("You have three seconds to remember the location");
           this.showSquare(3000);
         }
