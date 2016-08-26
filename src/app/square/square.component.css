@@ -6,7 +6,7 @@ div{
   font-family: 'Indie Flower', cursive;
   margin: 1%;
   text-align: center;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }

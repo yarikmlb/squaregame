@@ -10,8 +10,8 @@ var square_1 = require('./square');
 var game_service_1 = require('./game.service');
 var health_1 = require('./health');
 var AppComponent = (function () {
-    function AppComponent(_game) {
-        this._game = _game;
+    function AppComponent(_gameService) {
+        this._gameService = _gameService;
         this.list = [];
         this.newVawe = [];
         this.health = [];
@@ -24,68 +24,42 @@ var AppComponent = (function () {
     AppComponent.prototype.generateList = function (count) {
         this.calc = count;
         for (var i = 0; i < count; i++) {
-            var elemColor = (i % 2 !== 0) ? this.list[i - 1].color : false;
-            this.list.push(this.createItem(i, elemColor));
+            var elemBackground = (i % 2 !== 0) ? this.list[i - 1].background : false;
+            this.list.push(this.createItem(i, elemBackground));
         }
         this.shuffle(this.list);
     };
-    AppComponent.prototype.createItem = function (index, elemColor) {
-        return { color: elemColor || this._game.getRandomBackground(), isOpen: true, id: index, statement: false };
+    AppComponent.prototype.createItem = function (index, elemBackground) {
+        return { background: elemBackground || this._gameService.getRandomBackground(), isOpen: true, id: index, statement: false };
     };
     AppComponent.prototype.destroy = function (square) {
         var _this = this;
         setTimeout(function () {
             //debugger;
             if (!_this.tmpItem && _this.health.length > 0) {
-                if (square.statement === false) {
-                    _this.tmpItem = square;
-                }
+                _this.firstClick(square);
             }
-            else if (_this.tmpItem.color !== square.color && _this.health.length > 0) {
-                _this.healthCounter = 0;
-                _this.tmpItem.isOpen = false;
-                square.isOpen = false;
-                _this.tmpItem = null;
-                _this.health.pop();
+            else if (_this.tmpItem.background !== square.background && _this.health.length > 0) {
+                _this.setConditionWhenDifferentElements(square);
+                //debugger;
+                _this.removeHealth();
                 if (_this.health.length === 0) {
-                    if (confirm("You lose! Want more?")) {
-                        _this.list = [];
-                        _this._game.reset();
-                        _this.generateList(_this.calc);
-                        _this.health = [1, 2, 3];
-                        _this.healthCounter = 0;
-                        _this.showSquare(2000);
+                    if (confirm("You loose! Whant more?")) {
+                        _this.playAgain();
                     }
                     else {
-                        alert("See you...");
-                        _this.list = [];
+                        _this.notPlayAgain();
                     }
                 }
             }
             else if (_this.tmpItem === square && _this.health.length > 0) {
-                _this.tmpItem.isOpen = false;
-                _this.tmpItem = null;
+                _this.setConditionWhenSameElement();
             }
-            else if (_this.tmpItem.color === square.color && square.statement === false && _this.tmpItem.statement === false && _this.health.length > 0) {
-                _this.healthCounter += 1;
-                if (_this.healthCounter === 3) {
-                    _this.health.push(_this.healthCounter);
-                }
-                _this.tmpItem.isOpen = true;
-                square.isOpen = true;
-                _this.tmpItem.statement = true;
-                square.statement = true;
-                _this.newVawe.push(square);
-                _this.newVawe.push(_this.tmpItem);
+            else if (_this.check(square)) {
+                _this.addNewHealth();
+                _this.setConditionWhenColorSame(square);
                 if (_this.newVawe.length === _this.calc && _this.calc < 12) {
-                    _this.list = [];
-                    _this.newVawe = [];
-                    _this._game.reset();
-                    // this.health = [1, 2, 3];
-                    _this.generateList(_this.calc + 4);
-                    _this.healthCounter = 0;
-                    alert("You have three seconds to remember the location");
-                    _this.showSquare(3000);
+                    _this.generateNewGame();
                 }
                 _this.tmpItem = null;
             }
@@ -106,6 +80,62 @@ var AppComponent = (function () {
             for (var i = 0; i < _this.list.length; i++)
                 _this.list[i].isOpen = false;
         }, time);
+    };
+    AppComponent.prototype.generateNewGame = function () {
+        this.list = [];
+        this.newVawe = [];
+        this._gameService.reset();
+        //this.health = [1, 2, 3];
+        this.generateList(this.calc + 4);
+        this.healthCounter = 0;
+        alert('У вас есть 3 секунды что бы запомнить расположение карт');
+        this.showSquare(3000);
+    };
+    AppComponent.prototype.addNewHealth = function () {
+        this.healthCounter += 1;
+        if (this.healthCounter === 3) {
+            this.health.push(this.healthCounter);
+        }
+    };
+    AppComponent.prototype.playAgain = function () {
+        this.list = [];
+        this._gameService.reset();
+        this.generateList(this.calc);
+        this.health = [1, 2, 3];
+        this.showSquare(2000);
+    };
+    AppComponent.prototype.notPlayAgain = function () {
+        alert("See you...");
+        this.list = [];
+    };
+    AppComponent.prototype.setConditionWhenColorSame = function (elem) {
+        this.tmpItem.isOpen = true;
+        elem.isOpen = true;
+        this.tmpItem.statement = true;
+        elem.statement = true;
+        this.newVawe.push(elem);
+        this.newVawe.push(this.tmpItem);
+    };
+    AppComponent.prototype.setConditionWhenSameElement = function () {
+        this.tmpItem.isOpen = false;
+        this.tmpItem = null;
+    };
+    AppComponent.prototype.setConditionWhenDifferentElements = function (elem) {
+        this.healthCounter = 0;
+        this.tmpItem.isOpen = false;
+        elem.isOpen = false;
+        this.tmpItem = null;
+    };
+    AppComponent.prototype.firstClick = function (elem) {
+        if (elem.statement === false) {
+            this.tmpItem = elem;
+        }
+    };
+    AppComponent.prototype.removeHealth = function () {
+        this.health.pop();
+    };
+    AppComponent.prototype.check = function (square) {
+        return (this.tmpItem.background === square.background && square.statement === false && this.tmpItem.statement === false && this.health.length > 0);
     };
     AppComponent = __decorate([
         core_1.Component({
