@@ -25,8 +25,7 @@ export class AppComponent {
 
   constructor(private _gameService: GameService) {
     this.generateList(4);
-    this.showSquare(1000);
-    alert('У вас есть секунда что бы запомнить расположение карт');
+
   }
 
   generateList(count){
@@ -39,6 +38,8 @@ export class AppComponent {
     this.shuffle(this.list);
     this.isGameOver = false;
     this.isGameWin = false;
+    this.showSquare(2000);
+    alert('You have time to remember the location');
   }
 
   createItem(index, elemBackground){
@@ -104,8 +105,6 @@ export class AppComponent {
     //this.health = [1, 2, 3];
     this.generateList(this.calc + 4);
     this.healthCounter = 0;
-    alert('У вас есть 3 секунды что бы запомнить расположение карт');
-    this.showSquare(3000);
   }
 
   addNewHealth(){

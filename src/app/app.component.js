@@ -17,8 +17,6 @@ var AppComponent = (function () {
         this.health = [];
         this.healthCounter = 0;
         this.generateList(4);
-        this.showSquare(1000);
-        alert('У вас есть секунда что бы запомнить расположение карт');
     }
     AppComponent.prototype.generateList = function (count) {
         this.calc = count;
@@ -30,6 +28,8 @@ var AppComponent = (function () {
         this.shuffle(this.list);
         this.isGameOver = false;
         this.isGameWin = false;
+        this.showSquare(2000);
+        alert('You have time to remember the location');
     };
     AppComponent.prototype.createItem = function (index, elemBackground) {
         return { background: elemBackground || this._gameService.getRandomBackground(), isOpen: true, id: index, statement: false };
@@ -92,8 +92,6 @@ var AppComponent = (function () {
         //this.health = [1, 2, 3];
         this.generateList(this.calc + 4);
         this.healthCounter = 0;
-        alert('У вас есть 3 секунды что бы запомнить расположение карт');
-        this.showSquare(3000);
     };
     AppComponent.prototype.addNewHealth = function () {
         this.healthCounter += 1;
