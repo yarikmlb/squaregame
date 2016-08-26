@@ -1,7 +1,16 @@
 <h1 [ngClass] ="{'header' :true}">Find the same squares</h1>
 <div class="wrapper">
-  <div>
-    <health [heart]="heart" *ngFor="let heart of health"></health>
+  <div *ngIf="!isGameOver && !isGameWin" class="game">
+    <div><health [heart]="heart" *ngFor="let heart of health"></health></div>
+    <square [square]="item" (remove)="destroy($event.square)" *ngFor="let item of list"></square>
   </div>
-  <square [square]="item" (remove)="destroy($event.square)" *ngFor="let item of list"></square>
+  <div *ngIf="isGameWin"  class="gamewin">
+    <h1>You Win!!! Congratulations!!!</h1>
+    <img src="http://bestanimations.com/Holidays/Fireworks/fireworks-animation-4.gif" alt="">
+    <button (click)="generateList(4)">AGAIN ?</button>
+  </div>
+  <div *ngIf="isGameOver" class="gameover">
+    <img src="http://imglogo.podbean.com/image-logo/486124/LOGOBIG.jpg" alt="">
+    <button (click)="generateList(4)">AGAIN ?</button>
+  </div>
 </div>
