@@ -25,6 +25,8 @@ export class AppComponent {
 
   constructor(private _gameService: GameService) {
     this.generateList(4);
+    this.showSquare(1000);
+    alert('У вас есть секунда что бы запомнить расположение карт');
   }
 
   generateList(count){
@@ -35,8 +37,6 @@ export class AppComponent {
     }
     this.health = [1, 2, 3];
     this.shuffle(this.list);
-    this.showSquare(1000);
-    alert('У вас есть секунда что бы запомнить расположение карт');
     this.isGameOver = false;
     this.isGameWin = false;
   }
