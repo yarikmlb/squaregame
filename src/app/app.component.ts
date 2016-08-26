@@ -62,7 +62,7 @@ export class AppComponent {
       }else if(this.tmpItem === square && this.health.length > 0){
         this.setConditionWhenSameElement();
 
-      }else if(this.check(square)){
+      }else if(this.checkColor(square)){
         this.addNewHealth();
         this.setConditionWhenColorSame(square);
         if(this.newVawe.length === this.calc && this.calc < 12){
@@ -152,7 +152,7 @@ export class AppComponent {
     this.health.pop();
   }
 
-  check(square){
+  checkColor(square){
     return (this.tmpItem.background === square.background && square.statement === false && this.tmpItem.statement === false && this.health.length > 0);
   }
 }

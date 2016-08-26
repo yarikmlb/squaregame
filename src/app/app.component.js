@@ -55,7 +55,7 @@ var AppComponent = (function () {
             else if (_this.tmpItem === square && _this.health.length > 0) {
                 _this.setConditionWhenSameElement();
             }
-            else if (_this.check(square)) {
+            else if (_this.checkColor(square)) {
                 _this.addNewHealth();
                 _this.setConditionWhenColorSame(square);
                 if (_this.newVawe.length === _this.calc && _this.calc < 12) {
@@ -134,7 +134,7 @@ var AppComponent = (function () {
     AppComponent.prototype.removeHealth = function () {
         this.health.pop();
     };
-    AppComponent.prototype.check = function (square) {
+    AppComponent.prototype.checkColor = function (square) {
         return (this.tmpItem.background === square.background && square.statement === false && this.tmpItem.statement === false && this.health.length > 0);
     };
     AppComponent = __decorate([
