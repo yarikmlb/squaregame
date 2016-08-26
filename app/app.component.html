@@ -1,0 +1,7 @@
+<h1 [ngClass] ="{'header' :true}">Find the same squares</h1>
+<div class="wrapper">
+  <div>
+    <health [heart]="heart" *ngFor="let heart of health"></health>
+  </div>
+  <square [square]="item" (remove)="destroy($event.square)" *ngFor="let item of list"></square>
+</div>

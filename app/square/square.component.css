@@ -1,0 +1,12 @@
+div{
+  width: 22%;
+  height: 150px;
+  border-radius: 12px;
+  display: inline-block;
+  font-family: 'Indie Flower', cursive;
+  margin: 1%;
+  text-align: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
