@@ -115,6 +115,7 @@ var AppComponent = (function () {
     AppComponent.prototype.playAgain = function () {
         this.isGameOver = true;
         this.list = [];
+        this.newVawe = [];
         this._gameService.reset();
         this.healthCounter = 0;
         this.health = [1, 2, 3];
